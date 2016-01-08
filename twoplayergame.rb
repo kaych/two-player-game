@@ -1,15 +1,19 @@
 def game
-  puts "Let's get started!" #first prompt
-  @player_lives = 3
-  @player_score = 0
-#   @players = ["Player 1"]# ,"Player 2"]
+  puts "Let's get started!" 
+  
+  # @player_lives = 3
+  # @player_score = 0
+  # @players = ["Player 1","Player 2"]
 
-#   # player1 = "Player 1"
-#   # player2 = "Player 2"
-#   input(@players)
-#   # @player2_input
-#   lives_counter(@players) == 3
-#   score(@players) == 0
+  @players = [
+    { name: "Player 1",
+      score: 0,
+      lives: 3
+    },
+    { name: "Player 2",
+      score: 0,
+      lives: 3 }
+  ]
 
   def generate_question
     @first_number = rand(1..20)
@@ -21,71 +25,81 @@ def game
 
   #generate_question
 
-  def prompt_player_for_answer#(player)
+  def prompt_player_for_answer(player)
     puts @question
     @player_input = gets.chomp.to_i
   end
 
   #prompt_player_for_answer
 
-  def verify_answer#(player_input) #both right answer and lives
+  def verify_answer(player) 
     # @player_lives = 3
     # @player_score = 0
+    
     if @answer == @player_input
-      @player_score += 1
-      puts "Congrats, das correct!"
+      player[:score] += 1
+      puts "Correct!"
     else
-      @player_lives -= 1
-      puts "Oh no, looks like you lost a life!"
+      player[:lives] -= 1
+      puts "Oh no, that's wrong! Looks like you lost a life!"
     end
+
   end
 
   #verify_answer
 
-  #puts "The score is Player 1: #{@player_score}" #to Player 2: #{player2_score}"
+  def turn(player)
+    puts "#{player[:name]}, it's your turn!"
+    generate_question
+    prompt_player_for_answer(player)
+    verify_answer(player)
+  end
 
-#   def score_counter(player)
-#     # code: player(x) has value of @player_score
-#     @player_score = 0
-
-#     @players.each do |score|
-#       score += 
-#     end
-#   end
-
-
-
+  def score_report(player1, player2)
+    puts "The score is #{player1[:name]}: #{player1[:score]} to #{player2[:name]}: #{player2[:score]}"
+  end
 
   loop do
-    generate_question
 
-    prompt_player_for_answer#(input(@players))
+    turn(@players[0])
 
-    verify_answer#(input(@players))
+    score_report(@players[0], @players[1])
 
-    puts "The score is Player 1: #{@player_score} with #{@player_lives}" #to Player 2: #{player2_score}"
+    turn(@players[1])
+
+    score_report(@players[0], @players[1])
+
+    # puts "It's Player 1's turn!"
+
+    # generate_question
+
+    # prompt_player_for_answer(@players[0])
+
+    # verify_answer(@players[0])
+
+    # puts "The score is Player 1: #{@players[0][:score]} to Player 2: #{@players[1][:score]}"
+
+    # puts "It's Player 2's turn!"
 
     # generate_question
 
     # prompt_player_for_answer(@players[1])
 
-    # verify_answer(@player2_input)
+    # verify_answer(@players[1])
 
-    # print "The score is Player 1: #{@player1_score} to Player 2: #{player2_score}"
+    # puts "The score is Player 1: #{@players[0][:score]} to Player 2: #{@players[1][:score]}"
 
-    if @player_lives == 0 #|| player2_lives == 0)
+    if (@players[0][:lives] == 0 || @players[1][:lives] == 0)
       puts "The game is over!"
     end
 
-    break if (@player_lives == 0) #|| player2_lives == 0)
+    break if (@players[0][:lives] == 0 || @players[1][:lives] == 0)
   
   end
 
 end
 
 game
-
-
 
 
 
