@@ -59,6 +59,15 @@ def game
     puts "The score is #{player1[:name]}: #{player1[:score]} to #{player2[:name]}: #{player2[:score]}"
   end
 
+  def game_over(player1, player2)
+    if player1[:lives] == 0
+      puts "The game is over for you, #{player1[:name]}! You are out of lives! #{player2[:name]} beat you by a score of #{player2[:score]} to #{player1[:score]}!"
+    elsif player2[:lives] == 0
+      puts "The game is over for you, #{player2[:name]}! You are out of lives! #{player1[:name]} beat you by a score of #{player1[:score]} to #{player2[:score]}!"
+    else
+    end
+  end
+
   loop do
 
     turn(@players[0])
@@ -89,13 +98,15 @@ def game
 
     # puts "The score is Player 1: #{@players[0][:score]} to Player 2: #{@players[1][:score]}"
 
-    if (@players[0][:lives] == 0 || @players[1][:lives] == 0)
-      puts "The game is over!"
-    end
+    # if (@players[0][:lives] == 0 || @players[1][:lives] == 0)
+    #   puts "The game is over!"
+    # end
 
     break if (@players[0][:lives] == 0 || @players[1][:lives] == 0)
   
   end
+
+  game_over(@players[0], @players[1])
 
 end
 
