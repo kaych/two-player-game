@@ -41,17 +41,17 @@ def turn(player)
   verify_answer(player)
 end
 
-def score_report(player1, player2)
+def report_score(player1, player2)
   puts "The score is #{player1.name}: #{player1.score} to #{player2.name}: #{player2.score}".colorize(:light_blue)
 end
 
-def lives_report(player1, player2)
+def report_lives(player1, player2)
   puts "#{player1.name} has #{player1.lives} lives left. #{player2.name} has #{player2.lives} lives left.".colorize(:light_blue)
 end
 
-def status_update
-  score_report(@player1, @player2)
-  lives_report(@player1, @player2)
+def update_status
+  report_score(@player1, @player2)
+  report_lives(@player1, @player2)
 end
 
 def game_over(player1, player2)
@@ -66,21 +66,21 @@ end
 def game
   puts "Let's get started!".colorize(:yellow)
 
-  @player1 = Player.new('Player 1')
+  @player1 = Player.new("Player 1")
 
   # puts "#{@player1.lives}"
 
-  @player2 = Player.new('Player 2')
+  @player2 = Player.new("Player 2")
 
   loop do
 
     turn(@player1)
 
-    status_update
+    update_status
 
     turn(@player2)
 
-    status_update
+    update_status
 
     break if (@player1.lives == 0 || @player2.lives == 0)
   
@@ -89,4 +89,3 @@ def game
   game_over(@player1, @player2)
 
 end
-
