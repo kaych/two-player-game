@@ -45,6 +45,15 @@ def score_report(player1, player2)
   puts "The score is #{player1.name}: #{player1.score} to #{player2.name}: #{player2.score}".colorize(:light_blue)
 end
 
+def lives_report(player1, player2)
+  puts "#{player1.name} has #{player1.lives} lives left. #{player2.name} has #{player2.lives} lives left.".colorize(:light_blue)
+end
+
+def status_update
+  score_report(@player1, @player2)
+  lives_report(@player1, @player2)
+end
+
 def game_over(player1, player2)
   if player1.lives == 0
     puts "The game is over for you, #{player1.name}! You are out of lives! #{player2.name} beat you by a score of #{player2.score} to #{player1.score}!".colorize(:yellow)
@@ -67,11 +76,11 @@ def game
 
     turn(@player1)
 
-    score_report(@player1, @player2)
+    status_update
 
     turn(@player2)
 
-    score_report(@player1, @player2)
+    status_update
 
     break if (@player1.lives == 0 || @player2.lives == 0)
   
