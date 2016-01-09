@@ -129,14 +129,25 @@
 def generate_question
   @first_number = rand(1..20)
   @second_number = rand(1..20)
-
-  @question = "> What is #{@first_number} + #{@second_number}?"
-  @answer = @first_number + @second_number
 end
 
+def randomize_question(first_number, second_number)
+  operator = rand(1..3)
+    if operator == 1
+      @question = "> What is #{first_number} + #{second_number}?"
+      @answer = first_number + second_number
+    elsif operator == 2
+      @question = "> What is #{first_number} - #{second_number}?"
+      @answer = first_number - second_number
+    else
+      @question = "> What is #{first_number} * #{second_number}?"
+      @answer = first_number * second_number
+    end
+  @question
+end
 
 def prompt_player_for_answer(player)
-  puts @question.colorize(:light_blue)
+  puts randomize_question(@first_number, @second_number)
   @player_input = gets.chomp.to_i
 end
 
