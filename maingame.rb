@@ -4,5 +4,6 @@ require 'colorize'
 
 game
 
+## test code
 # player = Player.new
 # puts player1.score
