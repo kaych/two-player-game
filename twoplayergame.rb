@@ -1,42 +1,56 @@
-
-def generate_question
+def generate_numbers
   @first_number = rand(1..20)
   @second_number = rand(1..20)
 end
 
-def randomize_question(first_number, second_number)
-  operator = rand(1..3)
-    if operator == 1
-      @question = "> What is #{first_number} + #{second_number}?"
-      @answer = first_number + second_number
-    elsif operator == 2
-      @question = "> What is #{first_number} - #{second_number}?"
-      @answer = first_number - second_number
-    else
-      @question = "> What is #{first_number} * #{second_number}?"
-      @answer = first_number * second_number
-    end
-  @question
+### brute-force code
+
+# def randomize_question(first_number, second_number)
+#   operator = rand(1..3)
+#     if operator == 1
+#       @question = "> What is #{first_number} + #{second_number}?"
+#       @answer = first_number + second_number
+#     elsif operator == 2
+#       @question = "> What is #{first_number} - #{second_number}?"
+#       @answer = first_number - second_number
+#     else
+#       @question = "> What is #{first_number} * #{second_number}?"
+#       @answer = first_number * second_number
+#     end
+#   @question
+# end
+
+## improved code
+
+def generate_operator
+  operator = [:+, :-, :*]
+  @random_operator = operator.sample
+end
+
+def randomize_question(first_number, second_number, operator)
+  @answer = first_number.send(operator, second_number)
+  return @question = "What is #{first_number} #{operator} #{second_number}?"
 end
 
 def prompt_player_for_answer(player)
-  puts randomize_question(@first_number, @second_number)
+  puts randomize_question(@first_number, @second_number, @random_operator)
   @player_input = gets.chomp.to_i
 end
 
 def verify_answer(player) 
   if @answer == @player_input
     player.gain_point
-    puts "Correct!".colorize(:green)
+    puts "Correct! You gain a point!".colorize(:green)
   else
     player.lose_life
-    puts "Oh no, that's wrong. You lose a life. Sadface.".colorize(:red)
+    puts "Oh no, that's wrong. You lose a life.".colorize(:red)
   end
 end
 
 def turn(player)
   puts "#{player.name}, it's your turn!".colorize(:light_blue)
-  generate_question
+  generate_numbers
+  generate_operator
   prompt_player_for_answer(player)
   verify_answer(player)
 end
