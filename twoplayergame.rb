@@ -1,26 +1,16 @@
+def get_names
+  puts "First person, what is your name?"
+  @first_input = gets.chomp.to_s
+  @player1 = Player.new(@first_input)
+  puts "Second person, what is your name?"
+  @second_input = gets.chomp.to_s
+  @player2 = Player.new(@second_input)
+end
+
 def generate_numbers
   @first_number = rand(1..20)
   @second_number = rand(1..20)
 end
-
-### brute-force code
-
-# def randomize_question(first_number, second_number)
-#   operator = rand(1..3)
-#     if operator == 1
-#       @question = "> What is #{first_number} + #{second_number}?"
-#       @answer = first_number + second_number
-#     elsif operator == 2
-#       @question = "> What is #{first_number} - #{second_number}?"
-#       @answer = first_number - second_number
-#     else
-#       @question = "> What is #{first_number} * #{second_number}?"
-#       @answer = first_number * second_number
-#     end
-#   @question
-# end
-
-## improved code
 
 def generate_operator
   operator = [:+, :-, :*]
@@ -32,9 +22,18 @@ def randomize_question(first_number, second_number, operator)
   return @question = "What is #{first_number} #{operator} #{second_number}?"
 end
 
+def is_a_number_string?(s)
+  s.to_i.to_s == s
+end
+
 def prompt_player_for_answer(player)
   puts randomize_question(@first_number, @second_number, @random_operator)
-  @player_input = gets.chomp.to_i
+  @player_input = gets.chomp#.to_i
+
+  raise InvalidGuessError, "#{@player_input} is not a number." unless is_a_number_string?(@player_input)
+  #unless @player_input.is_a? Numeric 
+  
+  @player_input = @player_input.to_i
 end
 
 def verify_answer(player) 
@@ -51,7 +50,14 @@ def turn(player)
   puts "#{player.name}, it's your turn!".colorize(:light_blue)
   generate_numbers
   generate_operator
-  prompt_player_for_answer(player)
+  # prompt_player_for_answer(player)
+  begin
+    prompt_player_for_answer(player)
+  rescue InvalidGuessError => e
+    puts "Uh oh! Try again!"
+    puts e.message
+  retry
+  end
   verify_answer(player)
 end
 
@@ -80,11 +86,7 @@ end
 def game
   puts "Let's get started!".colorize(:yellow)
 
-  @player1 = Player.new("Player 1")
-
-  # puts "#{@player1.lives}"
-
-  @player2 = Player.new("Player 2")
+  get_names
 
   loop do
 
